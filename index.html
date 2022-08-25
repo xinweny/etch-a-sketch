@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch-A-Sketch</title>
     <link rel="stylesheet" href="./style.css">
-    <script type="module" src="./modules/main.js"></script>
-    <script type="module" src="./modules/features.js"></script>
-    <script type="module" src="./modules/listeners.js"></script>
-    <script type="module" src="./modules/helpers.js"></script>
+    <script src="./main.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -18,7 +15,7 @@
         <div class="options">
             <div class="buttons-container">
                 <div class="color-picker-container">
-                    <button class="paint-button" id="color-button">Color</button>
+                    <button class="paint-button clicked" id="color-button">Color</button>
                     <input type="color" id="color-picker">
                 </div>
                 <button class="paint-button" id="rainbow-button">Rainbow</button>
