@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch-A-Sketch</title>
     <link rel="stylesheet" href="./style.css">
-    <script src="./main.js" defer></script>
+    <script type="module" src="./modules/main.js"></script>
+    <script type="module" src="./modules/features.js"></script>
+    <script type="module" src="./modules/listeners.js"></script>
+    <script type="module" src="./modules/helpers.js"></script>
 </head>
 <body>
     <div class="header">
@@ -20,7 +23,7 @@
                 </div>
                 <button class="paint-button" id="rainbow-button">Rainbow</button>
                 <button class="paint-button" id="eraser-button">Eraser</button>
-                <button class="clear" id="clear-button">Clear</button>
+                <button class="clear-button" id="clear-button">Clear</button>
             </div>
             <div class="slide-container">
                 <p id="dimension">Grid size: 16 x 16</p>
