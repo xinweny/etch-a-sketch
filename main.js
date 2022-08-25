@@ -36,7 +36,6 @@ function changeBgCol(event, color) {
     event.target.style.backgroundColor = color;
 }
 
-
 function rainbowPaint() {
     const grid = document.querySelector(".grid");
     this.classList.toggle("clicked");
