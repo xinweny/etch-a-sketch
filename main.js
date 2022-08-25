@@ -48,11 +48,16 @@ function rainbowPaint(grid) {
         removeClickedClass(rainbowButton);
 
         if (rainbowButton.classList.contains("clicked")) {
-            grid.removeEventListener("mouseover", paintCell, false);
-            grid.addEventListener("mouseover", paintCellRainbow, false);
+            updateMouseoverListeners(
+                grid=grid,
+                removeListeners=[paintCell, eraseCell],
+                addListener=rainbowCell);
         } else {
-            grid.removeEventListener("mouseover", paintCellRainbow, false);
-            grid.addEventListener("mouseover", paintCell, false);
+            document.getElementById("color-button").classList.add("clicked");
+            updateMouseoverListeners(
+                grid=grid,
+                removeListeners=[eraseCell, rainbowCell],
+                addListener=paintCell);
         }
     });  
 }
@@ -66,13 +71,16 @@ function erasePaint(grid) {
         removeClickedClass(eraserButton);
 
     if (eraserButton.classList.contains("clicked")) {
-        grid.removeEventListener("mouseover", paintCell, false);
-        grid.removeEventListener("mouseover", paintCellRainbow, false);
-        grid.addEventListener("mouseover", eraseCell, false);
+        updateMouseoverListeners(
+            grid=grid,
+            removeListeners=[paintCell, rainbowCell],
+            addListener=eraseCell);
     } else {
-        grid.removeEventListener("mouseover", paintCellRainbow, false);
-        grid.removeEventListener("mouseover", eraseCell, false);
-        grid.addEventListener("mouseover", paintCell, false);
+        document.getElementById("color-button").classList.add("clicked");
+        updateMouseoverListeners(
+            grid=grid,
+            removeListeners=[eraseCell, rainbowCell],
+            addListener=paintCell);
     }
     });
 }
@@ -82,26 +90,18 @@ function colorPaint(grid) {
     const colorPicker = document.getElementById("color-picker");
     const colorButton = document.getElementById("color-button");
 
-    function updateMouseoverListeners(colorButton) {
-        if (colorButton.classList.contains("clicked")) {
-            grid.removeEventListener("mouseover", eraseCell, false);
-            grid.removeEventListener("mouseover", paintCellRainbow, false);
-            grid.addEventListener("mouseover", paintCell, false);
-        }
-    }
-
-    colorButton.addEventListener("click", () => {
-        colorButton.classList.add("clicked");
-        removeClickedClass(colorButton);
-        updateMouseoverListeners(colorButton);
-    })
-
-
-    colorPicker.addEventListener("click", () => {
-        colorButton.classList.add("clicked");
-        removeClickedClass(colorButton);
-        updateMouseoverListeners(colorButton);
-    })     
+    for (const element of [colorPicker, colorButton]) {
+        element.addEventListener("click", () => {
+            colorButton.classList.add("clicked");
+            removeClickedClass(colorButton);
+            if (colorButton.classList.contains("clicked")) {
+                updateMouseoverListeners(
+                    grid=grid,
+                    removeListeners=[eraseCell, rainbowCell],
+                    addListener=paintCell);
+            }
+        });
+    } 
 }
 
 // Reset all cells in the grid to the default background color
@@ -127,7 +127,7 @@ function paintCell(event) {
 }
 
 // Listener for rainbowPaint()
-function paintCellRainbow(event) {
+function rainbowCell(event) {
     const color = `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`;
 
     if (mouseDown && event.target.className === "cell") {
@@ -161,6 +161,15 @@ function removeClickedClass(exceptThis) {
             button.classList.remove("clicked");
         }
     }
+}
+
+// Helper function to update mouseover listeners when switching paint modes
+function updateMouseoverListeners(grid, removeListeners, addListener) {
+    for (listener of removeListeners) {
+        grid.removeEventListener("mouseover", listener, false);
+    }
+        
+    grid.addEventListener("mouseover", addListener, false);
 }
 
 // Main JS function
