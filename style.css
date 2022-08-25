@@ -9,3 +9,7 @@
     background-color: gray;
     user-select: none; 
 }
+
+.content {
+    display: flex;
+}
