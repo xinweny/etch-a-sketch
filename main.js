@@ -26,8 +26,10 @@ function addDragAndPaint(grid) {
 }
 
 function paintCell(event) {
+    const colorPicker = document.getElementById("color-picker");
+
     if (mouseDown && event.target.className === "cell") {
-        changeBgCol(event, "black");
+        changeBgCol(event, colorPicker.value);
     }
 }
 
@@ -36,18 +38,21 @@ function changeBgCol(event, color) {
     event.target.style.backgroundColor = color;
 }
 
-function rainbowPaint() {
-    const grid = document.querySelector(".grid");
-    this.classList.toggle("clicked");
-    removeClickedClass(this);
+function rainbowPaint(grid) {
+    const rainbowButton = document.getElementById("rainbow-button");
 
-    if (this.classList.contains("clicked")) {
-        grid.removeEventListener("mouseover", paintCell);
-        grid.addEventListener("mouseover", paintCellRainbow);
-    } else {
-        grid.removeEventListener("mouseover", paintCellRainbow);
-        grid.addEventListener("mouseover", paintCell);
-    }
+    rainbowButton.addEventListener("click", () => {
+        rainbowButton.classList.toggle("clicked");
+        removeClickedClass(rainbowButton);
+
+        if (rainbowButton.classList.contains("clicked")) {
+            grid.removeEventListener("mouseover", paintCell);
+            grid.addEventListener("mouseover", paintCellRainbow);
+        } else {
+            grid.removeEventListener("mouseover", paintCellRainbow);
+            grid.addEventListener("mouseover", paintCell);
+        }
+    });  
 }
 
 function paintCellRainbow(event) {
@@ -63,22 +68,25 @@ function rand255() {
     return Math.floor(Math.random() * 255)
 }
 
-function updateGridSize() {
-    
+function updateGridSize(grid) {
+    const slider = document.getElementById("slider");
     const dimension = document.getElementById("dimension");
 
-    document.querySelector(".grid").innerHTML = "";
-    createGrid(this.value);
+    slider.addEventListener("input", () => {
+        grid.innerHTML = "";
+        createGrid(slider.value);
 
-    dimension.textContent = `Grid size: ${this.value} x ${this.value}`;
+        dimension.textContent = `Grid size: ${slider.value} x ${slider.value}`;
+    });
 }
 
-function erasePaint() {
-    const grid = document.querySelector(".grid");
-    this.classList.toggle("clicked");
-    removeClickedClass(this);
+function erasePaint(grid) {
+    const eraserButton = document.getElementById("eraser-button");
+    eraserButton.addEventListener("click", () => {
+        eraserButton.classList.toggle("clicked");
+        removeClickedClass(eraserButton);
 
-    if (this.classList.contains("clicked")) {
+    if (eraserButton.classList.contains("clicked")) {
         grid.removeEventListener("mouseover", paintCell);
         grid.removeEventListener("mouseover", paintCellRainbow);
         grid.addEventListener("mouseover", eraseCell);
@@ -87,6 +95,7 @@ function erasePaint() {
         grid.removeEventListener("mouseover", eraseCell);
         grid.addEventListener("mouseover", paintCell);
     }
+    });
 }
 
 function eraseCell(event) {
@@ -108,16 +117,14 @@ function removeClickedClass(exceptThis) {
 // Main JS function
 function main() {
     const grid = createGrid(16);
+
     addDragAndPaint(grid);
 
-    const slider = document.getElementById("slider");
-    slider.addEventListener("input", updateGridSize);
+    updateGridSize(grid);
 
-    const rainbowButton = document.getElementById("rainbow-button");
-    rainbowButton.addEventListener("click", rainbowPaint);
+    rainbowPaint(grid);
 
-    const eraserButton = document.getElementById("eraser-button");
-    eraserButton.addEventListener("click", erasePaint);
+    erasePaint(grid);
 }
 
 main();
