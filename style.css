@@ -13,3 +13,7 @@
 .content {
     display: flex;
 }
+
+.clicked {
+    color: red;
+}

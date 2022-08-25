@@ -39,8 +39,17 @@ function changeBgCol(event, color) {
 
 function rainbowPaint() {
     const grid = document.querySelector(".grid");
-    grid.removeEventListener("mouseover", paintCell);
-    grid.addEventListener("mouseover", paintCellRainbow);
+
+    this.classList.toggle("clicked");
+    console.log(this.classList);
+
+    if (this.classList.contains("clicked")) {
+        grid.removeEventListener("mouseover", paintCell);
+        grid.addEventListener("mouseover", paintCellRainbow);
+    } else {
+        grid.removeEventListener("mouseover", paintCellRainbow);
+        grid.addEventListener("mouseover", paintCell);
+    }
 }
 
 function paintCellRainbow(event) {
