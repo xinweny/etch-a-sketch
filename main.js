@@ -46,6 +46,7 @@ function updateGridSize(slider) {
 function main() {
     const grid = createGrid(16);
     const slider = document.getElementById("slider");
+    const rainbowButton = document.getElementById("rainbow-button");
 
     updateGridSize(slider);
 }
