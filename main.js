@@ -82,6 +82,7 @@ function updateGridSize(grid) {
 
 function erasePaint(grid) {
     const eraserButton = document.getElementById("eraser-button");
+
     eraserButton.addEventListener("click", () => {
         eraserButton.classList.toggle("clicked");
         removeClickedClass(eraserButton);
@@ -114,17 +115,27 @@ function removeClickedClass(exceptThis) {
     }
 }
 
+function clearGrid(grid) {
+    const clearButton = document.getElementById("clear-button");
+
+    clearButton.addEventListener("click", () => {
+        for (cell of grid.querySelectorAll(".cell")) {
+            cell.style.backgroundColor = "white";
+        }
+    })
+}
+
 // Main JS function
 function main() {
+    // Create grid
     const grid = createGrid(16);
 
+    // Add sketchpad functionalities to grid
     addDragAndPaint(grid);
-
     updateGridSize(grid);
-
     rainbowPaint(grid);
-
     erasePaint(grid);
+    clearGrid(grid);
 }
 
 main();
