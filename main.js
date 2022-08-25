@@ -33,8 +33,16 @@ function paintCell(event) {
     }
 }
 
-function rand255() {
-    return Math.floor(Math.random() * 255)
+// Helper function for paintCell
+function changeBgCol(event, color) {
+    event.target.style.backgroundColor = color;
+}
+
+
+function rainbowPaint() {
+    const grid = document.querySelector(".grid");
+    grid.removeEventListener("mouseover", paintCell);
+    grid.addEventListener("mouseover", paintCellRainbow);
 }
 
 function paintCellRainbow(event) {
@@ -45,27 +53,19 @@ function paintCellRainbow(event) {
     }
 }
 
-// Helper function for paintCell
-function changeBgCol(event, color) {
-    event.target.style.backgroundColor = color;
+// Generate random integer between 0 and 255
+function rand255() {
+    return Math.floor(Math.random() * 255)
 }
 
-function rainbowPaint() {
-    const grid = document.querySelector(".grid");
-    grid.removeEventListener("mouseover", paintCell);
-    grid.addEventListener("mouseover", paintCellRainbow);
-}
-
-function updateGridSize(slider) {
+function updateGridSize() {
     
-    const dimension = document.getElementById("dimension")
+    const dimension = document.getElementById("dimension");
 
-    slider.addEventListener("input", function() {
-        document.querySelector(".grid").innerHTML = "";
-        createGrid(this.value);
+    document.querySelector(".grid").innerHTML = "";
+    createGrid(this.value);
 
-        dimension.textContent = `Grid size: ${this.value} x ${this.value}`;
-    })
+    dimension.textContent = `Grid size: ${this.value} x ${this.value}`;
 }
 
 // Main JS function
@@ -73,10 +73,10 @@ function main() {
     const grid = createGrid(16);
 
     const slider = document.getElementById("slider");
-    updateGridSize(slider);
+    slider.addEventListener("input", updateGridSize);
 
     const rainbowButton = document.getElementById("rainbow-button");
-    rainbowButton.addEventListener("click", rainbowPaint)
+    rainbowButton.addEventListener("click", rainbowPaint);
 
     
 }
