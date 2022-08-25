@@ -21,10 +21,10 @@ function createGrid(dim) {
 
 // Add drag-and-paint functionality on cells in grid
 function addDragAndPaint(grid) {
-    grid.addEventListener("mousedown", () => mouseDown = true);
-    grid.addEventListener("mouseup", () => mouseDown = false);
+    grid.addEventListener("mousedown", () => mouseDown = true, false);
+    grid.addEventListener("mouseup", () => mouseDown = false, false);
 
-    grid.addEventListener("mouseover", paintCell);
+    grid.addEventListener("mouseover", paintCell, false);
 }
 
 // Dynamically update grid size when slider is moved and display the value
@@ -48,11 +48,11 @@ function rainbowPaint(grid) {
         removeClickedClass(rainbowButton);
 
         if (rainbowButton.classList.contains("clicked")) {
-            grid.removeEventListener("mouseover", paintCell);
-            grid.addEventListener("mouseover", paintCellRainbow);
+            grid.removeEventListener("mouseover", paintCell, false);
+            grid.addEventListener("mouseover", paintCellRainbow, false);
         } else {
-            grid.removeEventListener("mouseover", paintCellRainbow);
-            grid.addEventListener("mouseover", paintCell);
+            grid.removeEventListener("mouseover", paintCellRainbow, false);
+            grid.addEventListener("mouseover", paintCell, false);
         }
     });  
 }
@@ -66,13 +66,13 @@ function erasePaint(grid) {
         removeClickedClass(eraserButton);
 
     if (eraserButton.classList.contains("clicked")) {
-        grid.removeEventListener("mouseover", paintCell);
-        grid.removeEventListener("mouseover", paintCellRainbow);
-        grid.addEventListener("mouseover", eraseCell);
+        grid.removeEventListener("mouseover", paintCell, false);
+        grid.removeEventListener("mouseover", paintCellRainbow, false);
+        grid.addEventListener("mouseover", eraseCell, false);
     } else {
-        grid.removeEventListener("mouseover", paintCellRainbow);
-        grid.removeEventListener("mouseover", eraseCell);
-        grid.addEventListener("mouseover", paintCell);
+        grid.removeEventListener("mouseover", paintCellRainbow, false);
+        grid.removeEventListener("mouseover", eraseCell, false);
+        grid.addEventListener("mouseover", paintCell, false);
     }
     });
 }
@@ -82,22 +82,26 @@ function colorPaint(grid) {
     const colorPicker = document.getElementById("color-picker");
     const colorButton = document.getElementById("color-button");
 
+    function updateMouseoverListeners(colorButton) {
+        if (colorButton.classList.contains("clicked")) {
+            grid.removeEventListener("mouseover", eraseCell, false);
+            grid.removeEventListener("mouseover", paintCellRainbow, false);
+            grid.addEventListener("mouseover", paintCell, false);
+        }
+    }
+
     colorButton.addEventListener("click", () => {
         colorButton.classList.add("clicked");
         removeClickedClass(colorButton);
-
-        if (colorButton.classList.contains("clicked")) {
-            grid.removeEventListener("mouseover", eraseCell);
-            grid.removeEventListener("mouseover", paintCellRainbow);
-            grid.addEventListener("mouseover", paintCell);
-        }
+        updateMouseoverListeners(colorButton);
     })
 
-    colorPicker.addEventListener("input", () => {
+
+    colorPicker.addEventListener("click", () => {
+        colorButton.classList.add("clicked");
         removeClickedClass(colorButton);
-
-        paintCell();
-    })
+        updateMouseoverListeners(colorButton);
+    })     
 }
 
 // Reset all cells in the grid to the default background color

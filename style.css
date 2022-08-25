@@ -1,9 +1,26 @@
+.header {
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .grid {
     display: flex;
     flex-wrap: wrap;
     width: 500px;
     height: 500px;
     border: solid;
+}
+
+.options, .buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
 }
 
 button {
@@ -17,10 +34,6 @@ button {
 .cell {
     background-color: white;
     user-select: none; 
-}
-
-.content {
-    display: flex;
 }
 
 .clicked {
