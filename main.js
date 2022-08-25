@@ -12,6 +12,17 @@ function createGrid(dim) {
         grid.appendChild(cell);
     }
 
+    // Add event listener for drag-and-paint effect on cells
+    let mouseDown = false;
+
+    grid.addEventListener('mousedown', () => mouseDown = true);
+    grid.addEventListener('mouseup', () => mouseDown = false);
+
+    grid.addEventListener("mouseover", function(event) { // closure
+        if (mouseDown && event.target.className === "cell") {
+            event.target.style.backgroundColor = "black";
+        }
+    });
     return grid
 }
 
