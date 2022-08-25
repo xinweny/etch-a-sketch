@@ -12,6 +12,8 @@ function createGrid(dim) {
         grid.appendChild(cell);
     }
 
+    addDragAndPaint(grid);
+
     return grid
 }
 
@@ -19,8 +21,8 @@ function createGrid(dim) {
 function addDragAndPaint(grid) {
     let mouseDown = false;
 
-    grid.addEventListener('mousedown', () => mouseDown = true);
-    grid.addEventListener('mouseup', () => mouseDown = false);
+    grid.addEventListener("mousedown", () => mouseDown = true);
+    grid.addEventListener("mouseup", () => mouseDown = false);
 
     grid.addEventListener("mouseover", function(event) { // closure
         if (mouseDown && event.target.className === "cell") {
@@ -29,9 +31,23 @@ function addDragAndPaint(grid) {
     });
 }
 
+function updateGridSize(slider) {
+    
+    const dimension = document.getElementById("dimension")
+
+    slider.addEventListener("input", function() {
+        document.querySelector(".grid").innerHTML = "";
+        createGrid(this.value);
+
+        dimension.textContent = `Grid size: ${this.value} x ${this.value}`;
+    })
+}
+
 function main() {
     const grid = createGrid(16);
-    addDragAndPaint(grid);
+    const slider = document.getElementById("slider");
+
+    updateGridSize(slider);
 }
 
 main();
