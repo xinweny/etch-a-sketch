@@ -3,10 +3,11 @@
     flex-wrap: wrap;
     width: 320px;
     height: 320px;
+    border: solid;
 }
 
 .cell {
-    background-color: gray;
+    background-color: white;
     user-select: none; 
 }
 

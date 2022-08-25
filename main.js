@@ -39,9 +39,8 @@ function changeBgCol(event, color) {
 
 function rainbowPaint() {
     const grid = document.querySelector(".grid");
-
     this.classList.toggle("clicked");
-    console.log(this.classList);
+    removeClickedClass(this);
 
     if (this.classList.contains("clicked")) {
         grid.removeEventListener("mouseover", paintCell);
@@ -75,6 +74,38 @@ function updateGridSize() {
     dimension.textContent = `Grid size: ${this.value} x ${this.value}`;
 }
 
+function erasePaint() {
+    const grid = document.querySelector(".grid");
+    this.classList.toggle("clicked");
+    removeClickedClass(this);
+
+    if (this.classList.contains("clicked")) {
+        grid.removeEventListener("mouseover", paintCell);
+        grid.removeEventListener("mouseover", paintCellRainbow);
+        grid.addEventListener("mouseover", eraseCell);
+    } else {
+        grid.removeEventListener("mouseover", paintCellRainbow);
+        grid.removeEventListener("mouseover", eraseCell);
+        grid.addEventListener("mouseover", paintCell);
+    }
+}
+
+function eraseCell(event) {
+    if (mouseDown && event.target.className === "cell") {
+        changeBgCol(event, "white");
+    }
+}
+
+function removeClickedClass(exceptThis) {
+    const paintButtons = document.querySelectorAll(".paint-button");
+
+    for (button of paintButtons) {
+        if (button != exceptThis) {
+            button.classList.remove("clicked");
+        }
+    }
+}
+
 // Main JS function
 function main() {
     const grid = createGrid(16);
@@ -86,7 +117,8 @@ function main() {
     const rainbowButton = document.getElementById("rainbow-button");
     rainbowButton.addEventListener("click", rainbowPaint);
 
-    
+    const eraserButton = document.getElementById("eraser-button");
+    eraserButton.addEventListener("click", erasePaint);
 }
 
 main();
