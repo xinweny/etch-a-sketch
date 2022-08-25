@@ -12,8 +12,6 @@ function createGrid(dim) {
         grid.appendChild(cell);
     }
 
-    addDragAndPaint(grid);
-
     return grid
 }
 
@@ -33,6 +31,7 @@ function addDragAndPaint(grid) {
 
 function main() {
     const grid = createGrid(16);
+    addDragAndPaint(grid);
 }
 
 main();
