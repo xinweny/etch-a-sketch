@@ -48,16 +48,10 @@ function rainbowPaint(grid) {
         removeClickedClass(rainbowButton);
 
         if (rainbowButton.classList.contains("clicked")) {
-            updateMouseoverListeners(
-                grid=grid,
-                removeListeners=[paintCell, eraseCell],
-                addListener=rainbowCell);
+            updateMouseoverListeners(grid, [paintCell, eraseCell], rainbowCell);
         } else {
             document.getElementById("color-button").classList.add("clicked");
-            updateMouseoverListeners(
-                grid=grid,
-                removeListeners=[eraseCell, rainbowCell],
-                addListener=paintCell);
+            updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
         }
     });  
 }
@@ -71,16 +65,10 @@ function erasePaint(grid) {
         removeClickedClass(eraserButton);
 
     if (eraserButton.classList.contains("clicked")) {
-        updateMouseoverListeners(
-            grid=grid,
-            removeListeners=[paintCell, rainbowCell],
-            addListener=eraseCell);
+        updateMouseoverListeners(grid, [paintCell, rainbowCell], eraseCell);
     } else {
         document.getElementById("color-button").classList.add("clicked");
-        updateMouseoverListeners(
-            grid=grid,
-            removeListeners=[eraseCell, rainbowCell],
-            addListener=paintCell);
+        updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
     }
     });
 }
@@ -95,10 +83,7 @@ function colorPaint(grid) {
             colorButton.classList.add("clicked");
             removeClickedClass(colorButton);
             if (colorButton.classList.contains("clicked")) {
-                updateMouseoverListeners(
-                    grid=grid,
-                    removeListeners=[eraseCell, rainbowCell],
-                    addListener=paintCell);
+                updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
             }
         });
     } 

@@ -25,10 +25,20 @@
 
 button {
     display: block;
+    background-color: white;
+    font-size: 20px;
+    width: 120px;
+    border-radius: 8px;
+    border-color: black;
+    padding: 8px;
 }
 
 .color-picker-container {
     display: flex;
+}
+
+#color-picker {
+    border: none;
 }
 
 .cell {
