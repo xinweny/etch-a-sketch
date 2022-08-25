@@ -12,7 +12,13 @@ function createGrid(dim) {
         grid.appendChild(cell);
     }
 
-    // Add event listener for drag-and-paint effect on cells
+    addDragAndPaint(grid);
+
+    return grid
+}
+
+// Add event listener for drag-and-paint effect on cells
+function addDragAndPaint(grid) {
     let mouseDown = false;
 
     grid.addEventListener('mousedown', () => mouseDown = true);
@@ -23,7 +29,6 @@ function createGrid(dim) {
             event.target.style.backgroundColor = "black";
         }
     });
-    return grid
 }
 
 function main() {
