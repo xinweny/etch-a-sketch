@@ -115,6 +115,28 @@ function removeClickedClass(exceptThis) {
     }
 }
 
+function colorPaint(grid) {
+    const colorPicker = document.getElementById("color-picker");
+    const colorButton = document.getElementById("color-button");
+
+    colorButton.addEventListener("click", () => {
+        colorButton.classList.add("clicked");
+        removeClickedClass(colorButton);
+
+        if (colorButton.classList.contains("clicked")) {
+            grid.removeEventListener("mouseover", eraseCell);
+            grid.removeEventListener("mouseover", paintCellRainbow);
+            grid.addEventListener("mouseover", paintCell);
+        }
+    })
+
+    colorPicker.addEventListener("input", () => {
+        removeClickedClass(colorButton);
+
+        paintCell();
+    })
+}
+
 function clearGrid(grid) {
     const clearButton = document.getElementById("clear-button");
 
@@ -133,6 +155,7 @@ function main() {
     // Add sketchpad functionalities to grid
     addDragAndPaint(grid);
     updateGridSize(grid);
+    colorPaint(grid);
     rainbowPaint(grid);
     erasePaint(grid);
     clearGrid(grid);

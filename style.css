@@ -10,6 +10,10 @@ button {
     display: block;
 }
 
+.color-picker-container {
+    display: flex;
+}
+
 .cell {
     background-color: white;
     user-select: none; 
