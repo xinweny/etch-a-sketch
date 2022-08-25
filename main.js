@@ -14,8 +14,6 @@ function createGrid(dim) {
         grid.appendChild(cell);
     }
 
-    addDragAndPaint(grid);
-
     return grid
 }
 
@@ -71,6 +69,7 @@ function updateGridSize() {
 // Main JS function
 function main() {
     const grid = createGrid(16);
+    addDragAndPaint(grid);
 
     const slider = document.getElementById("slider");
     slider.addEventListener("input", updateGridSize);
