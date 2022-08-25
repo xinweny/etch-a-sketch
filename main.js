@@ -1,3 +1,5 @@
+let mouseDown = false;
+
 function createGrid(dim) {
     const grid = document.querySelector(".grid");
     const gridSize = grid.clientWidth;
@@ -19,16 +21,39 @@ function createGrid(dim) {
 
 // Add event listener for drag-and-paint effect on cells
 function addDragAndPaint(grid) {
-    let mouseDown = false;
-
     grid.addEventListener("mousedown", () => mouseDown = true);
     grid.addEventListener("mouseup", () => mouseDown = false);
 
-    grid.addEventListener("mouseover", function(event) { // closure
-        if (mouseDown && event.target.className === "cell") {
-            event.target.style.backgroundColor = "black";
-        }
-    });
+    grid.addEventListener("mouseover", paintCell);
+}
+
+function paintCell(event) {
+    if (mouseDown && event.target.className === "cell") {
+        changeBgCol(event, "black");
+    }
+}
+
+function rand255() {
+    return Math.floor(Math.random() * 255)
+}
+
+function paintCellRainbow(event) {
+    const color = `rgb(${rand255()}, ${rand255()}, ${rand255()})`;
+
+    if (mouseDown && event.target.className === "cell") {
+        changeBgCol(event, color);
+    }
+}
+
+// Helper function for paintCell
+function changeBgCol(event, color) {
+    event.target.style.backgroundColor = color;
+}
+
+function rainbowPaint() {
+    const grid = document.querySelector(".grid");
+    grid.removeEventListener("mouseover", paintCell);
+    grid.addEventListener("mouseover", paintCellRainbow);
 }
 
 function updateGridSize(slider) {
@@ -43,12 +68,17 @@ function updateGridSize(slider) {
     })
 }
 
+// Main JS function
 function main() {
     const grid = createGrid(16);
-    const slider = document.getElementById("slider");
-    const rainbowButton = document.getElementById("rainbow-button");
 
+    const slider = document.getElementById("slider");
     updateGridSize(slider);
+
+    const rainbowButton = document.getElementById("rainbow-button");
+    rainbowButton.addEventListener("click", rainbowPaint)
+
+    
 }
 
 main();
