@@ -6,6 +6,7 @@ let passCounter = 0;
 function createGrid(dim) {
     const grid = document.querySelector(".grid");
     const gridSize = grid.clientWidth;
+    const toggler = document.querySelector("input[type='checkbox']");
 
     grid.style.gridTemplateColumns = `repeat(${dim}, 1fr)`;
     grid.style.gridTemplateRows = grid.style.gridTemplateColumns;
@@ -14,6 +15,7 @@ function createGrid(dim) {
     for (let i = 0; i < dim ** 2; i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
+        if (toggler.checked) cell.classList.add("cell-gridded");
         grid.appendChild(cell);
     }
 
@@ -107,11 +109,12 @@ function clearGrid(grid) {
 // Toggle gridlines
 function toggleGridLines(grid) {
     const toggler = document.querySelector("input[type='checkbox']");
-    const cells = grid.querySelectorAll(".cell");
 
     toggler.addEventListener('change', () => {
-        for (cell of cells) {
-            cell.classList.add("cell-gridded");
+        const cells = grid.querySelectorAll(".cell");
+
+        for (const cell of cells) {
+            cell.classList.toggle("cell-gridded");
         }
     }, false);
 }
@@ -144,7 +147,6 @@ function adjustCellShading(grid) {
 function paintCell(event) {
     const colorPicker = document.getElementById("color-picker");
 
-    console.log("hi");
     if (mouseDown && event.target.classList.contains("cell")) {
         changeBgCol(event, colorPicker.value);
     }
