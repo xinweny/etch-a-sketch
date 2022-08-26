@@ -84,12 +84,20 @@ function colorPaint(grid) {
     for (const element of [colorPicker, colorButton]) {
         element.addEventListener("click", () => {
             colorButton.classList.add("clicked");
+            colorButton.style.color = colorPicker.value;
             removeClickedClass(colorButton);
+
             if (colorButton.classList.contains("clicked")) {
                 updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
             }
         });
     } 
+
+    colorPicker.addEventListener("input", () => {
+        if (colorButton.classList.contains("clicked")) {
+            colorButton.style.color = colorPicker.value;
+        }
+    }); 
 }
 
 // Reset all cells in the grid to the default background color
@@ -209,6 +217,7 @@ function removeClickedClass(exceptThis) {
     for (const button of paintButtons) {
         if (button != exceptThis) {
             button.classList.remove("clicked");
+            if (button.id == "color-button") button.style.color = null;
         }
     }
 }
