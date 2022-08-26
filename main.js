@@ -99,7 +99,6 @@ function clearGrid(grid) {
 
         for (const cell of cells) {
             cell.style.backgroundColor = "white";
-            cell.style.opacity = 1;
             cell.style.filter = "brightness(100%)";
         }
     })
@@ -111,7 +110,9 @@ function toggleGridLines(grid) {
     const cells = grid.querySelectorAll(".cell");
 
     toggler.addEventListener('change', () => {
-        grid.style.gap = toggler.checked ? "1px" : "0px";
+        for (cell of cells) {
+            cell.classList.add("cell-gridded");
+        }
     }, false);
 }
 
@@ -121,19 +122,19 @@ function adjustCellShading(grid) {
     const darkenButton = document.getElementById("darken-button");
 
     lightenButton.addEventListener("click", () => {
-        lightenButton.classList.toggle("clicked-shading");
-        darkenButton.classList.remove("clicked-shading");
+        lightenButton.classList.toggle("clicked");
+        darkenButton.classList.remove("clicked");
 
-        if (lightenButton.classList.contains("clicked-shading")) {
+        if (lightenButton.classList.contains("clicked")) {
             updateListeners(grid, "mouseout", [darkenCell], lightenCell);
         }
     }, false);
 
     darkenButton.addEventListener("click", () => {
-        darkenButton.classList.toggle("clicked-shading");
-        lightenButton.classList.remove("clicked-shading");
+        darkenButton.classList.toggle("clicked");
+        lightenButton.classList.remove("clicked");
 
-        if (darkenButton.classList.contains("clicked-shading")) {
+        if (darkenButton.classList.contains("clicked")) {
             updateListeners(grid, "mouseout", [lightenCell], darkenCell);
         }
     }, false);
@@ -143,7 +144,8 @@ function adjustCellShading(grid) {
 function paintCell(event) {
     const colorPicker = document.getElementById("color-picker");
 
-    if (mouseDown && event.target.className === "cell") {
+    console.log("hi");
+    if (mouseDown && event.target.classList.contains("cell")) {
         changeBgCol(event, colorPicker.value);
     }
 }
@@ -152,26 +154,25 @@ function paintCell(event) {
 function rainbowCell(event) {
     const color = `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`;
 
-    if (mouseDown && event.target.className === "cell") {
+    if (mouseDown && event.target.classList.contains("cell")) {
         changeBgCol(event, color);
     }
 }
 
 // Listener for erasePaint()
 function eraseCell(event) {
-    if (mouseDown && event.target.className === "cell") {
+    if (mouseDown && event.target.classList.contains("cell")) {
         changeBgCol(event, "white");
     }
 }
 
 // Listener for adjustCellShading()
 function lightenCell(event) {
-    if (mouseDown && event.target.className === "cell") {
+    if (mouseDown && event.target.classList.contains("cell")) {
         event.target.style.opacity = `${100 - passCounter}%`;
         if (passCounter < 100) {
             passCounter += 1;
         }
-        console.log(event.target.style.opacity);
     } else {
         passCounter = 0;
     }
@@ -179,7 +180,7 @@ function lightenCell(event) {
 
 // Listener for adjustCellShading()
 function darkenCell(event) {
-    if (mouseDown && event.target.className === "cell") {
+    if (mouseDown && event.target.classList.contains("cell")) {
         event.target.style.filter = `brightness(${100 - passCounter}%)`;
         if (passCounter < 100) {
             passCounter += 1;

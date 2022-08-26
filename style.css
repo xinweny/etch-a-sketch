@@ -1,182 +1,211 @@
-.header {
-    text-align: center;
-}
-
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.grid {
-    width: 500px;
-    height: 500px;
-    border: solid;
-    display: grid;
-    background-color: lightgray;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(16, 1fr);
-}
-
-.options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.slide-container {
-    display: flex;
-    gap: 8px;
-}
-
-.switch-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 0px;
-}
-
-.options {
-    height: 500px;
-    margin-right: 100px;
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
 }
 
 button {
-    display: block;
-    background-color: white;
-    font-size: 16px;
-    width: 100px;
+  color: white;
+  display: block;
+  background: none;
+  font-size: 16px;
+  width: 100px;
+  border: solid;
+  padding: 10px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 48px;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  width: 500px;
+  height: 500px;
+  border: solid;
+  display: grid;
+  background-color: white;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.slide-container {
+  display: flex;
+  gap: 8px;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0px;
+}
+
+.options {
+  height: 500px;
+  margin-right: 100px;
 }
 
 #color-picker {
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
 }
 
 #color-picker::-webkit-color-swatch-wrapper {
-    padding: 0; 
+  padding: 0;
 }
+
 #color-picker::-webkit-color-swatch {
-    border: none;
-    border-radius: 50%;
+  border: none;
+  border-radius: 50%;
 }
 
 #rainbow-button.clicked {
-    background-color: white;
-    border: medium solid transparent;
-    background-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-    border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
-    border-image-slice: 4;
-    border-radius: 8px;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background-color: white;
+  border: medium solid transparent;
+  background-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 4;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 .cell {
-    background-color: white;
-    user-select: none;
-    flex: auto;
+  background-color: white;
+  user-select: none;
+  flex: auto;
 }
 
-.clicked, #clear-button:active {
-    background-color: black;
-    color: white;
+#clear-button:active {
+  border: thick solid;
 }
 
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-  .tri-state-toggle {
-    background: rgba(165,170,174,0.25);
-    box-shadow: inset 0 2px 8px 0 rgba(165,170,174,0.25);
-    border-radius: 24px;
-    display: inline-block;
-    overflow: hidden;
-    display: inline-flex;
-    flex-direction: column;
-  transition: all 500ms ease; 
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider {
+  background-color: #2196F3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.tri-state-toggle {
+  background: rgba(165, 170, 174, 0.25);
+  box-shadow: inset 0 2px 8px 0 rgba(165, 170, 174, 0.25);
+  border-radius: 24px;
+  display: inline-block;
+  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  transition: all 500ms ease;
 }
 
 .shade-buttons {
-    display: flex;
-    
+  display: flex;
+
 }
 
 button.shade-button {
-    font-size: 12px;
-    padding: 6px;
-    width: auto;
+  font-size: 12px;
+  padding: 6px;
+  width: auto;
+  border: solid;
 }
 
-.clicked-shading {
-    color: red;
+.shade-button.clicked {
+  color: red;
+}
+
+#lighten-button {
+  border-right: 0px;
+}
+
+.cell-gridded {
+  border: 0.5px solid;
+  border-color: lightgray;
 }
