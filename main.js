@@ -24,10 +24,14 @@ function createGrid(dim) {
 
 // Add drag-and-paint functionality on cells in grid
 function addDragAndPaint(grid) {
-    grid.addEventListener("mousedown", () => mouseDown = true, false);
+    grid.addEventListener("mousedown", (event) => {
+        mouseDown = true;
+        paintCell(event);
+    }, false);
     grid.addEventListener("mouseup", () => mouseDown = false, false);
 
     grid.addEventListener("mouseover", paintCell, false);
+    grid.addEventListener("click", paintCell, false);
 }
 
 // Dynamically update grid size when slider is moved and display the value
@@ -156,30 +160,24 @@ function adjustCellShading(grid) {
 function paintCell(event) {
     const colorPicker = document.getElementById("color-picker");
 
-    if (mouseDown && event.target.classList.contains("cell")) {
-        changeBgCol(event, colorPicker.value);
-    }
+    if (correctCellState(event)) changeBgCol(event, colorPicker.value);
 }
 
 // Listener for rainbowPaint()
 function rainbowCell(event) {
     const color = `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`;
 
-    if (mouseDown && event.target.classList.contains("cell")) {
-        changeBgCol(event, color);
-    }
+    if (correctCellState(event)) changeBgCol(event, color)
 }
 
 // Listener for erasePaint()
 function eraseCell(event) {
-    if (mouseDown && event.target.classList.contains("cell")) {
-        changeBgCol(event, "white");
-    }
+    if (correctCellState(event)) changeBgCol(event, "white");
 }
 
 // Listener for adjustCellShading()
 function lightenCell(event) {
-    if (mouseDown && event.target.classList.contains("cell")) {
+    if (correctCellState()) {
         event.target.style.opacity = `${100 - passCounter}%`;
         if (passCounter < 100) {
             passCounter += 1;
@@ -191,7 +189,7 @@ function lightenCell(event) {
 
 // Listener for adjustCellShading()
 function darkenCell(event) {
-    if (mouseDown && event.target.classList.contains("cell")) {
+    if (correctCellState()) {
         event.target.style.filter = `brightness(${100 - passCounter}%)`;
         if (passCounter < 100) {
             passCounter += 1;
@@ -230,6 +228,11 @@ function updateListeners(grid, event, removeListeners, addListener) {
     }
         
     grid.addEventListener("mouseover", addListener, false);
+}
+
+// Helper function to check cell state before coloring
+function correctCellState(event) {
+    return (mouseDown) && event.target.classList.contains("cell");
 }
 
 // Main JS function
