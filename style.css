@@ -5,7 +5,7 @@
 .content {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .grid {
@@ -23,22 +23,57 @@
     gap: 24px;
 }
 
+.slide-container {
+    display: flex;
+    gap: 8px;
+}
+
+.options {
+    height: 500px;
+    margin-right: 100px;
+}
+
 button {
     display: block;
     background-color: white;
     font-size: 20px;
-    width: 120px;
-    border-radius: 8px;
+    width: 150px;
+    border: medium solid;
     border-color: black;
-    padding: 8px;
-}
-
-.color-picker-container {
-    display: flex;
+    border-radius: 8px;
+    padding: 12px;
 }
 
 #color-picker {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
     border: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#color-picker::-webkit-color-swatch-wrapper {
+    padding: 0; 
+}
+#color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+#rainbow-button.clicked {
+    background-color: white;
+    border: medium solid transparent;
+    background-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image-slice: 4;
+    border-radius: 8px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#dimension {
+    margin: 0;
 }
 
 .cell {
@@ -46,6 +81,7 @@ button {
     user-select: none; 
 }
 
-.clicked {
-    color: red;
+.clicked, #clear-button:active {
+    background-color: black;
+    color: white;
 }

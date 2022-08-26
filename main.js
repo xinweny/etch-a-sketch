@@ -35,7 +35,7 @@ function updateGridSize(grid) {
     slider.addEventListener("input", () => {
         grid.innerHTML = "";
         createGrid(slider.value);
-        dimension.textContent = `Grid size: ${slider.value} x ${slider.value}`;
+        dimension.textContent = slider.value;
     });
 }
 
