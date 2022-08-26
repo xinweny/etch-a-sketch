@@ -83,6 +83,7 @@ function colorPaint(grid) {
 
     for (const element of [colorPicker, colorButton]) {
         element.addEventListener("click", () => {
+            colorPicker.click();
             colorButton.classList.add("clicked");
             colorButton.style.color = colorPicker.value;
             removeClickedClass(colorButton);
