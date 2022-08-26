@@ -6,13 +6,13 @@ function createGrid(dim) {
     const grid = document.querySelector(".grid");
     const gridSize = grid.clientWidth;
 
+    grid.style.gridTemplateColumns = `repeat(${dim}, 1fr)`;
+    grid.style.gridTemplateRows = grid.style.gridTemplateColumns;
+
     // Create and insert cells into parent grid div
     for (let i = 0; i < dim ** 2; i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
-        cell.style.width = gridSize / dim + "px";
-        cell.style.height = cell.style.width;
-
         grid.appendChild(cell);
     }
 
@@ -102,6 +102,16 @@ function clearGrid(grid) {
     })
 }
 
+// Toggle gridlines
+function toggleGridLines(grid) {
+    const toggler = document.querySelector("input[type='checkbox']");
+    const cells = grid.querySelectorAll(".cell");
+
+    toggler.addEventListener('change', () => {
+        grid.style.gap = toggler.checked ? "1px" : "0px";
+    })
+}
+
 // Listener for createGrid() and colorPaint()
 function paintCell(event) {
     const colorPicker = document.getElementById("color-picker");
@@ -169,6 +179,7 @@ function main() {
     rainbowPaint(grid);
     erasePaint(grid);
     clearGrid(grid);
+    toggleGridLines(grid);
 }
 
 main();
