@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'PressStart2P';
+  src: url('./assets/PressStart2P.ttf');
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/Minecraft.ttf');
+}
+
 body {
   height: 100vh;
   display: flex;
@@ -15,6 +25,23 @@ button {
   width: 100px;
   border: solid;
   padding: 10px;
+  font-family: 'Minecraft';
+}
+
+button.clicked, #clear-button:active {
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+
+p {
+  margin: 0;
+  font-family: 'Minecraft';
+}
+
+a {
+  text-decoration: none;
+  color: lightskyblue;
 }
 
 .header {
@@ -22,6 +49,7 @@ button {
   align-items: center;
   justify-content: center;
   padding-top: 48px;
+  font-family: 'PressStart2P';
 }
 
 .footer {
@@ -108,10 +136,6 @@ p {
   flex: auto;
 }
 
-#clear-button:active {
-  border: thick solid;
-}
-
 .switch {
   position: relative;
   display: inline-block;
@@ -194,11 +218,11 @@ button.shade-button {
   font-size: 12px;
   padding: 6px;
   width: auto;
-  border: solid;
+  border: thin solid;
 }
 
 .shade-button.clicked {
-  color: red;
+  border-color: white;
 }
 
 #lighten-button {
