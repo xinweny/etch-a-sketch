@@ -157,11 +157,11 @@ function adjustCellShading(grid) {
         if (lightenButton.classList.contains("clicked")) {
             shadeActive = true;
             updateListeners(grid, "mouseout", [darkenCell], [lightenCell]);
-            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], []);
+            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], null);
         } else {
             shadeActive = false;
             updateListeners(grid, "mouseout", [lightenCell]);
-            updateListeners(grid, "click", [], [eraseCell, rainbowCell, paintCell]);
+            updateListeners(grid, "click", null, [eraseCell, rainbowCell, paintCell]);
         }
     }, false);
 
@@ -172,11 +172,11 @@ function adjustCellShading(grid) {
         if (darkenButton.classList.contains("clicked")) {
             shadeActive = true;
             updateListeners(grid, "mouseout", [lightenCell], [darkenCell]);
-            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], []);
+            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], null);
         } else {
             shadeActive = false;
             updateListeners(grid, "mouseout", [darkenCell]);
-            updateListeners(grid, "click", [], [eraseCell, rainbowCell, paintCell]);
+            updateListeners(grid, "click", null, [eraseCell, rainbowCell, paintCell]);
         }
     }, false);
 }
@@ -256,14 +256,18 @@ function removeClickedClass(exceptThis) {
 }
 
 // Helper function to update mouseover listeners when switching paint modes
-function updateListeners(grid, event, removeListeners, addListeners) {
-    for (const listener of removeListeners) {
-        grid.removeEventListener(event, listener, false);
+function updateListeners(grid, event, removeListeners=null, addListeners=null) {
+    if (removeListeners != null) {
+        for (const listener of removeListeners) {
+            grid.removeEventListener(event, listener, false);
+        }
     }
     
-    for (const listener of addListeners) {
-        grid.addEventListener(event, listener, false);
-    }
+    if (addListeners != null) {
+        for (const listener of addListeners) {
+            grid.addEventListener(event, listener, false);
+        }
+    };
 }
 
 // Helper function to check cell state before coloring
