@@ -244,3 +244,9 @@ button.shade-button {
   margin-left: 6px;
   margin-right: 6px;
 }
+
+#chameleon {
+  width: 75px;
+  height: auto;
+  margin-right: 24px;
+}
