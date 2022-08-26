@@ -46,12 +46,8 @@
 button {
     display: block;
     background-color: white;
-    font-size: 20px;
-    width: 150px;
-    border: medium solid;
-    border-color: black;
-    border-radius: 8px;
-    padding: 12px;
+    font-size: 16px;
+    width: 100px;
 }
 
 #color-picker {
@@ -158,3 +154,25 @@ p {
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .tri-state-toggle {
+    background: rgba(165,170,174,0.25);
+    box-shadow: inset 0 2px 8px 0 rgba(165,170,174,0.25);
+    border-radius: 24px;
+    display: inline-block;
+    overflow: hidden;
+    display: inline-flex;
+    flex-direction: column;
+  transition: all 500ms ease; 
+}
+
+.shade-buttons {
+    display: flex;
+    
+}
+
+button.shade-button {
+    font-size: 12px;
+    padding: 6px;
+    width: auto;
+}

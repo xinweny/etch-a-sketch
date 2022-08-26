@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch-A-Sketch</title>
+    <title>Pixel Sketch</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./main.js" defer></script>
 </head>
 <body>
     <div class="header">
-        <h1>Etch-A-Sketch</h1>
+        <h1>PIXEL SKETCH</h1>
     </div>
     <div class="content">
         <div class="options">
-                <input type="color" id="color-picker">
-                <button class="paint-button clicked" id="color-button">COLOR</button>
-                <button class="paint-button" id="rainbow-button">RAINBOW</button>
-                <button class="paint-button" id="eraser-button">ERASER</button>
-                <button class="clear-button" id="clear-button">CLEAR</button>
-                <div class="slide-container">
-                    <input type="range" min="8" max="64" value="16" id="slider">
-                    <p id="dimension">16</p>
-                </div>
-                <div class="switch-container">
-                    <p>GRID</p>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                
+            <input type="color" id="color-picker">
+            <button class="paint-button clicked" id="color-button">COLOR</button>
+            <button class="paint-button" id="rainbow-button">RAINBOW</button>
+            <button class="paint-button" id="eraser-button">ERASER</button>
+            <div class="shade-buttons">
+                <button class="shade-button" id="lighten-button">LIGHTEN</button>
+                <button class="shade-button" id="darken-button">DARKEN</button>
+            </div>
+            <div class="slide-container">
+                <input type="range" min="8" max="64" value="16" id="size-slider">
+                <p id="dimension">16</p>
+            </div>
+            <div class="switch-container">
+                <p>GRID</p>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <button class="clear-button" id="clear-button">CLEAR</button>
         </div>
         <div class="grid"></div>
     </div>

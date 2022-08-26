@@ -1,5 +1,6 @@
-// Global variable tracking mousedown event
+// Global variables
 let mouseDown = false;
+let passCounter = 0;
 
 // Create grid of dim x dim cells
 function createGrid(dim) {
@@ -29,7 +30,7 @@ function addDragAndPaint(grid) {
 
 // Dynamically update grid size when slider is moved and display the value
 function updateGridSize(grid) {
-    const slider = document.getElementById("slider");
+    const slider = document.getElementById("size-slider");
     const dimension = document.getElementById("dimension");
 
     slider.addEventListener("input", () => {
@@ -110,6 +111,12 @@ function toggleGridLines(grid) {
     toggler.addEventListener('change', () => {
         grid.style.gap = toggler.checked ? "1px" : "0px";
     })
+}
+
+// Lighten/Darken cell color per pass
+function adjustCellShading(grid) {
+    const lightenButton = document.getElementById("lighten-button");
+    const darkenButton = document.getElementById("shade-button");
 }
 
 // Listener for createGrid() and colorPaint()
