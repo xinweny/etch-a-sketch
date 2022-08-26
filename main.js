@@ -1,6 +1,8 @@
 // Global variables
 let mouseDown = false;
+let clicked = false;
 let passCounter = 0;
+let shadeActive = false;
 
 // Create grid of dim x dim cells
 function createGrid(dim) {
@@ -24,14 +26,15 @@ function createGrid(dim) {
 
 // Add drag-and-paint functionality on cells in grid
 function addDragAndPaint(grid) {
-    grid.addEventListener("mousedown", (event) => {
-        mouseDown = true;
-        paintCell(event);
-    }, false);
+    grid.addEventListener("mousedown", () => mouseDown = true, false);
     grid.addEventListener("mouseup", () => mouseDown = false, false);
+    grid.addEventListener("click", () => clicked = true, false);
+    grid.addEventListener("mouseout", () => clicked = false, false);
 
-    grid.addEventListener("mouseover", paintCell, false);
-    grid.addEventListener("click", paintCell, false);
+    for (const event of ["mouseover", "click"]) {
+        grid.addEventListener(event, paintCell, false);
+    }
+    
 }
 
 // Dynamically update grid size when slider is moved and display the value
@@ -55,12 +58,16 @@ function rainbowPaint(grid) {
         removeClickedClass(rainbowButton);
 
         if (rainbowButton.classList.contains("clicked")) {
-            updateListeners(grid, "mouseover", [paintCell, eraseCell], rainbowCell);
+            for (const event of ["mouseover", "click"]) {
+                updateListeners(grid, event, [paintCell, eraseCell], [rainbowCell]);
+            }
         } else {
             document.getElementById("color-button").classList.add("clicked");
-            updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
+            for (const event of ["mouseover", "click"]) {
+                updateListeners(grid, event, [eraseCell, rainbowCell], [paintCell]);
+            }
         }
-    });  
+    });
 }
 
 // Turn cell back to default background colour when moused over
@@ -72,10 +79,14 @@ function erasePaint(grid) {
         removeClickedClass(eraserButton);
 
     if (eraserButton.classList.contains("clicked")) {
-        updateListeners(grid, "mouseover", [paintCell, rainbowCell], eraseCell);
+        for (const event of ["mouseover", "click"]) {
+            updateListeners(grid, event, [paintCell, rainbowCell], [eraseCell]);
+        }
     } else {
         document.getElementById("color-button").classList.add("clicked");
-        updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
+        for (const event of ["mouseover", "click"]) {
+            updateListeners(grid, event, [eraseCell, rainbowCell], [paintCell]);
+        }
     }
     });
 }
@@ -93,7 +104,9 @@ function colorPaint(grid) {
             removeClickedClass(colorButton);
 
             if (colorButton.classList.contains("clicked")) {
-                updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
+                for (const event of ["mouseover", "click"]) {
+                    updateListeners(grid, event, [eraseCell, rainbowCell], [paintCell]);
+                }
             }
         });
     } 
@@ -142,7 +155,13 @@ function adjustCellShading(grid) {
         darkenButton.classList.remove("clicked");
 
         if (lightenButton.classList.contains("clicked")) {
-            updateListeners(grid, "mouseout", [darkenCell], lightenCell);
+            shadeActive = true;
+            updateListeners(grid, "mouseout", [darkenCell], [lightenCell]);
+            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], []);
+        } else {
+            shadeActive = false;
+            updateListeners(grid, "mouseout", [lightenCell]);
+            updateListeners(grid, "click", [], [eraseCell, rainbowCell, paintCell]);
         }
     }, false);
 
@@ -151,33 +170,46 @@ function adjustCellShading(grid) {
         lightenButton.classList.remove("clicked");
 
         if (darkenButton.classList.contains("clicked")) {
-            updateListeners(grid, "mouseout", [lightenCell], darkenCell);
+            shadeActive = true;
+            updateListeners(grid, "mouseout", [lightenCell], [darkenCell]);
+            updateListeners(grid, "click", [eraseCell, rainbowCell, paintCell], []);
+        } else {
+            shadeActive = false;
+            updateListeners(grid, "mouseout", [darkenCell]);
+            updateListeners(grid, "click", [], [eraseCell, rainbowCell, paintCell]);
         }
     }, false);
 }
 
 // Listener for createGrid() and colorPaint()
 function paintCell(event) {
+    resetCss(event);
     const colorPicker = document.getElementById("color-picker");
 
-    if (correctCellState(event)) changeBgCol(event, colorPicker.value);
+    if (correctCellState(event)) {
+        changeBgCol(event, colorPicker.value);
+    }
 }
 
 // Listener for rainbowPaint()
 function rainbowCell(event) {
+    resetCss(event);
     const color = `rgb(${rand(255)}, ${rand(255)}, ${rand(255)})`;
 
-    if (correctCellState(event)) changeBgCol(event, color)
+    if (correctCellState(event)) changeBgCol(event, color);
 }
 
 // Listener for erasePaint()
 function eraseCell(event) {
+    resetCss(event);
     if (correctCellState(event)) changeBgCol(event, "white");
 }
 
 // Listener for adjustCellShading()
 function lightenCell(event) {
-    if (correctCellState()) {
+    event.target.style.filter = null;
+
+    if (correctCellState(event)) {
         event.target.style.opacity = `${100 - passCounter}%`;
         if (passCounter < 100) {
             passCounter += 1;
@@ -189,7 +221,9 @@ function lightenCell(event) {
 
 // Listener for adjustCellShading()
 function darkenCell(event) {
-    if (correctCellState()) {
+    event.target.style.opacity = "100%";
+
+    if (correctCellState(event)) {
         event.target.style.filter = `brightness(${100 - passCounter}%)`;
         if (passCounter < 100) {
             passCounter += 1;
@@ -222,17 +256,27 @@ function removeClickedClass(exceptThis) {
 }
 
 // Helper function to update mouseover listeners when switching paint modes
-function updateListeners(grid, event, removeListeners, addListener) {
-    for (listener of removeListeners) {
-        grid.removeEventListener("mouseover", listener, false);
+function updateListeners(grid, event, removeListeners, addListeners) {
+    for (const listener of removeListeners) {
+        grid.removeEventListener(event, listener, false);
     }
-        
-    grid.addEventListener("mouseover", addListener, false);
+    
+    for (const listener of addListeners) {
+        grid.addEventListener(event, listener, false);
+    }
 }
 
 // Helper function to check cell state before coloring
 function correctCellState(event) {
-    return (mouseDown) && event.target.classList.contains("cell");
+    return (mouseDown || clicked) && event.target.classList.contains("cell")
+}
+
+// Helper function to reset relevant CSS styles if shade function is off
+function resetCss(event) {
+    if (!shadeActive) {
+        event.target.style.opacity = "100%";
+        event.target.style.filter = null;
+    }
 }
 
 // Main JS function
