@@ -12,8 +12,8 @@
     width: 500px;
     height: 500px;
     border: solid;
-    background-color: lightgray;
     display: grid;
+    background-color: lightgray;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
 }
@@ -175,4 +175,8 @@ button.shade-button {
     font-size: 12px;
     padding: 6px;
     width: auto;
+}
+
+.clicked-shading {
+    color: red;
 }

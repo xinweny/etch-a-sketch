@@ -49,10 +49,10 @@ function rainbowPaint(grid) {
         removeClickedClass(rainbowButton);
 
         if (rainbowButton.classList.contains("clicked")) {
-            updateMouseoverListeners(grid, [paintCell, eraseCell], rainbowCell);
+            updateListeners(grid, "mouseover", [paintCell, eraseCell], rainbowCell);
         } else {
             document.getElementById("color-button").classList.add("clicked");
-            updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
+            updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
         }
     });  
 }
@@ -66,10 +66,10 @@ function erasePaint(grid) {
         removeClickedClass(eraserButton);
 
     if (eraserButton.classList.contains("clicked")) {
-        updateMouseoverListeners(grid, [paintCell, rainbowCell], eraseCell);
+        updateListeners(grid, "mouseover", [paintCell, rainbowCell], eraseCell);
     } else {
         document.getElementById("color-button").classList.add("clicked");
-        updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
+        updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
     }
     });
 }
@@ -84,7 +84,7 @@ function colorPaint(grid) {
             colorButton.classList.add("clicked");
             removeClickedClass(colorButton);
             if (colorButton.classList.contains("clicked")) {
-                updateMouseoverListeners(grid, [eraseCell, rainbowCell], paintCell);
+                updateListeners(grid, "mouseover", [eraseCell, rainbowCell], paintCell);
             }
         });
     } 
@@ -99,6 +99,8 @@ function clearGrid(grid) {
 
         for (const cell of cells) {
             cell.style.backgroundColor = "white";
+            cell.style.opacity = 1;
+            cell.style.filter = "brightness(100%)";
         }
     })
 }
@@ -110,13 +112,31 @@ function toggleGridLines(grid) {
 
     toggler.addEventListener('change', () => {
         grid.style.gap = toggler.checked ? "1px" : "0px";
-    })
+    }, false);
 }
 
 // Lighten/Darken cell color per pass
 function adjustCellShading(grid) {
     const lightenButton = document.getElementById("lighten-button");
-    const darkenButton = document.getElementById("shade-button");
+    const darkenButton = document.getElementById("darken-button");
+
+    lightenButton.addEventListener("click", () => {
+        lightenButton.classList.toggle("clicked-shading");
+        darkenButton.classList.remove("clicked-shading");
+
+        if (lightenButton.classList.contains("clicked-shading")) {
+            updateListeners(grid, "mouseout", [darkenCell], lightenCell);
+        }
+    }, false);
+
+    darkenButton.addEventListener("click", () => {
+        darkenButton.classList.toggle("clicked-shading");
+        lightenButton.classList.remove("clicked-shading");
+
+        if (darkenButton.classList.contains("clicked-shading")) {
+            updateListeners(grid, "mouseout", [lightenCell], darkenCell);
+        }
+    }, false);
 }
 
 // Listener for createGrid() and colorPaint()
@@ -144,6 +164,31 @@ function eraseCell(event) {
     }
 }
 
+// Listener for adjustCellShading()
+function lightenCell(event) {
+    if (mouseDown && event.target.className === "cell") {
+        event.target.style.opacity = `${100 - passCounter}%`;
+        if (passCounter < 100) {
+            passCounter += 1;
+        }
+        console.log(event.target.style.opacity);
+    } else {
+        passCounter = 0;
+    }
+}
+
+// Listener for adjustCellShading()
+function darkenCell(event) {
+    if (mouseDown && event.target.className === "cell") {
+        event.target.style.filter = `brightness(${100 - passCounter}%)`;
+        if (passCounter < 100) {
+            passCounter += 1;
+        }
+    } else {
+        passCounter = 0;
+    }
+}
+
 // Helper function for paintCell()
 function changeBgCol(event, color) {
     event.target.style.backgroundColor = color;
@@ -166,7 +211,7 @@ function removeClickedClass(exceptThis) {
 }
 
 // Helper function to update mouseover listeners when switching paint modes
-function updateMouseoverListeners(grid, removeListeners, addListener) {
+function updateListeners(grid, event, removeListeners, addListener) {
     for (listener of removeListeners) {
         grid.removeEventListener("mouseover", listener, false);
     }
@@ -187,6 +232,7 @@ function main() {
     erasePaint(grid);
     clearGrid(grid);
     toggleGridLines(grid);
+    adjustCellShading(grid);
 }
 
 main();
