@@ -55,6 +55,9 @@ a {
 .footer {
   text-align: center;
   padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
@@ -235,4 +238,9 @@ button.shade-button {
 .cell-gridded {
   border: 0.5px solid;
   border-color: gray;
+}
+
+#github-logo {
+  margin-left: 6px;
+  margin-right: 6px;
 }
